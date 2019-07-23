@@ -67,14 +67,26 @@ end
    message_body = params["Body"]
    from_number = params["From"]
    root_url = get_url_actual(message_body)
+   status = check_google_safe_browsing(parse_url_from_text(message_body))
    boot_twilio
+   if status[:analysis] === "dangerous"
+   content = "FRAUD SHIELD - \nWARNING!!\nActual domain location: #{root_url}\n\nThis url has been flagged as malicious."
+   else
+   content = "FRAUD SHIELD - \nActual domain location: #{root_url}\n\nMAKE SURE you recognize this url before clicking..."
+   end
+
    sms = @client.messages.create(
      from: ENV["TWILIO_NUMBER"],
      to: from_number,
+     media_url: ['https://c1.staticflickr.com/3/2899/14341091933_1e92e62d12_b.jpg'],
      #body: "Hello there, thanks for texting me. Your number is #{from_number}."
-     body: "FRAUD SHIELD - \nActual domain location: #{root_url}\n\nMAKE SURE you recognize this url before clicking..."
+     body: content
    )
 
+ end
+
+ def parse_url_from_text(text)
+  return URI.extract(text, ['http', 'https'])[0]
  end
 
  def get_url_actual(message_body)
