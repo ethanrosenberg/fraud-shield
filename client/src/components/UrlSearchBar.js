@@ -1,14 +1,10 @@
 
 import React from 'react';
+import { connect } from 'react-redux';
+import { searchURL, updateSearchUrl, updateLoading, updateUrlResults } from '../actions/searchUrlActions'
 
 class UrlSearchBar extends React.Component {
-  constructor() {
-    super()
 
-    this.state = {
-      inputUrl: ''
-    }
-  }
   render() {
 
   const captionTitle = () => { return ( <h1 class="display-4">Bootstrap 4</h1> ) }
@@ -16,16 +12,11 @@ class UrlSearchBar extends React.Component {
   const handleSubmit = event => {
 
         event.preventDefault()
-        this.props.updateLoading(true)
-        this.props.search(this.props.currentPhone)
+        this.props.searchURL(this.props.searchUrlInput)
 
   }
 
-  const handleChange = event => {
-    this.setState({
-      inputUrl: event.target.value
-    })
-  }
+
 
     return (
 
@@ -38,7 +29,7 @@ class UrlSearchBar extends React.Component {
                       <form onSubmit={handleSubmit} role="form" id="form-buscar">
                       <div class="form-group">
                       <div class="input-group">
-                      <input onChange={handleChange} id="1" class="form-control" value={this.state.inputUrl} type="text" name="search" placeholder="Enter a url..." required/>
+                      <input onChange={this.props.updateSearchUrl} id="1" class="form-control"  value={this.props.searchUrlInput} ype="text" name="search" placeholder="Enter a url..." required/>
                       <span class="input-group-btn">
                       <button class="btn btn-success" type="submit">
                       <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search
@@ -59,4 +50,14 @@ class UrlSearchBar extends React.Component {
 }
 
 
-export default UrlSearchBar
+const mapStateToProps = state => {
+  return {
+    searchUrlInput: state.searchUrlInput,
+  }
+}
+
+
+
+
+
+export default connect(mapStateToProps, {searchURL, updateSearchUrl, updateLoading, updateUrlResults })(UrlSearchBar)

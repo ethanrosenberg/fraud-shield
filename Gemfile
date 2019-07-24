@@ -9,6 +9,9 @@ gem 'dotenv-rails'
 gem 'adomain'
 gem 'metainspector'
 gem 'httparty'
+gem 'rack-cors'
+
+
 
 
 gem 'google-cloud-vision'
