@@ -14,7 +14,6 @@ gem 'rack-cors'
 gem 'phantomjs', :require => 'phantomjs/poltergeist'
 
 gem 'webshot'
-gem "mini_magick"
 gem 'screencap'
 gem 'httparty'
 gem 'nokogiri'

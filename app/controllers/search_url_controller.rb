@@ -45,7 +45,7 @@ class SearchUrlController < ApplicationController
 
         value = text.join(" ").downcase
 
-        byebug
+  
 
         item = ''
 
@@ -59,9 +59,9 @@ class SearchUrlController < ApplicationController
 
 
         if item != ''
-          render json: { flag: item }
+          render json: { flag: item, image_url: google_storage_url }
         else
-          render json: { flag: "None Found" }
+          render json: { flag: "None Found", image_url: gogole_storage_url }
         end
 
 
