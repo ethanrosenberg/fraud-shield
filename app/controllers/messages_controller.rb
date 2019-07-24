@@ -1,8 +1,10 @@
 require 'uri'
   require 'net/http'
+require 'open-uri'
 
   require 'json'
-require 'google/apis/safebrowsing_v4'
+  require 'google/cloud/vision'
+  require "google/cloud/storage"
 
 class MessagesController < ApplicationController
 
@@ -13,9 +15,89 @@ class MessagesController < ApplicationController
 def test
 
 
-resp = check_google_safe_browsing("http://t.creovector.ru/downloader/www.citi.com/index.html")
+url = Url.create(address: "apple.com")
+downloaded_image = open(url)
+url.image.attach(io: downloaded_image)
+
+
+
+
+
+
+
+  storage = Google::Cloud::Storage.new(
+    project_id: "graphite-earth-246401",
+    credentials: "./My First Project-62e5d12f8294.json"
+  )
+
+  bucket = storage.bucket "graphite-earth-246401-vcm"
+  bucket.create_file "https://api.url2png.com/v6/P4DF2F8BC83648/e76d7eb625bf3ab27838a97630375e27/png/?thumbnail_max_width=851&url=https%3A%2F%2Fweb-kahuna.com%2Fw%2Fonline-banking%2FHA7UqdZhLZzZE6KHPTsWeWFM4HA7UqdZhLZzZE6KHPTsWeWFM4KksUW5UWWLhgqzwa4pdUHnYJYCSM9Z67ykLpkNyBcKksUW5UWWLhgqzwa4pdUHnYJYCSM9Z67ykLpkNyBc%2Fl%2Fwells_fargo%2Flogin&viewport=1280x2000"
 
 byebug
+  file = bucket.file "path/to/my-file.ext"
+
+  # Download the file to the local file system
+  file.download "/tasks/attachments/#{file.name}"
+
+  # Copy the file to a backup bucket
+  backup = storage.bucket "task-attachment-backups"
+  file.copy backup, file.name
+
+
+  answer = get_image_property_name("https://api.url2png.com/v6/P4DF2F8BC83648/e76d7eb625bf3ab27838a97630375e27/png/?thumbnail_max_width=851&url=https%3A%2F%2Fweb-kahuna.com%2Fw%2Fonline-banking%2FHA7UqdZhLZzZE6KHPTsWeWFM4HA7UqdZhLZzZE6KHPTsWeWFM4KksUW5UWWLhgqzwa4pdUHnYJYCSM9Z67ykLpkNyBcKksUW5UWWLhgqzwa4pdUHnYJYCSM9Z67ykLpkNyBc%2Fl%2Fwells_fargo%2Flogin&viewport=1280x2000")
+
+  byebug
+#image_annotator = Google::Cloud::Vision::ImageAnnotator.new version: :v1 project: ENV['GOOGLE_CLOUD_PROJECT'], keyfile: ENV['GOOGLE_CLOUD_KEYFILE_JSON']
+
+
+
+
+  byebug
+
+  #ision = Google::Cloud::Vision::rail.new
+  image_uri = "gs://graphite-earth-246401-vcm/http-::bankofamerica.exileconsultant.com:BOA3:logindotphp.png"
+
+  byebug
+
+#resp = check_google_safe_browsing("http://t.creovector.ru/downloader/www.citi.com/index.html")
+
+
+
+end
+
+def get_image_property_name(url)
+
+  image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+
+  response = image_annotator.document_text_detection(
+    image: url,
+    #max_results: 15 # optional, defaults to 10
+  )
+
+  #byebug
+
+  text = []
+  response.responses.each do |res|
+    res.text_annotations.each do |annotation|
+      content = annotation.description.gsub(/\R+/, ' ')
+      text << content
+    end
+  end
+
+  value = text.join(" ").downcase
+
+
+  ['bank of america','wells fargo','paypal'].each do |flag|
+    if value.include?(flag)
+      return {
+        flag: flag
+      }
+    end
+  end
+
+  return {
+    flag: "none"
+  }
 
 end
 

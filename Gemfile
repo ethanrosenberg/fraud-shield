@@ -9,7 +9,10 @@ gem 'dotenv-rails'
 gem 'adomain'
 gem 'metainspector'
 gem 'httparty'
-gem 'google-api-client', '~> 0.11'
+
+
+gem 'google-cloud-vision'
+gem 'google-cloud-storage'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
