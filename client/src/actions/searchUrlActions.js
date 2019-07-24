@@ -38,7 +38,7 @@ export const searchURL = input => {
     fetch('http://localhost:3000/api/v1/searchUrl', headers)
       .then(r => r.json())
       .then(response => {
-          dispatch(updateSearchUrl(response))
+          dispatch(updateUrlResults(response))
           dispatch(updateLoading(false))
 
       })
