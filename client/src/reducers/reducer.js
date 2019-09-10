@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 const initialState = {
   searchUrlInput: '',
   loading: false,
-  urlResults: []
+  urlResults: ''
 };
 
 const UPDATE_LOADING = 'UPDATE_LOADING';

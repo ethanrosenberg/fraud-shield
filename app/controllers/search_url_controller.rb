@@ -45,12 +45,12 @@ class SearchUrlController < ApplicationController
 
         value = text.join(" ").downcase
 
-  
+
 
         item = ''
 
-        ['bank of america','wells fargo','paypal'].each do |flag|
-          if value.include?(flag)
+        ['bank of america','wells fargo','paypal', 'citi bank'].each do |flag|
+          if value.include?(flag) || value.include?(flag.gsub(" ", ''))
             item = flag
             break
 
@@ -58,10 +58,11 @@ class SearchUrlController < ApplicationController
         end
 
 
+
         if item != ''
           render json: { flag: item, image_url: google_storage_url }
         else
-          render json: { flag: "None Found", image_url: gogole_storage_url }
+          render json: { flag: "None Found", image_url: google_storage_url }
         end
 
 

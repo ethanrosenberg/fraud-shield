@@ -11,7 +11,8 @@ class Result extends React.Component {
 
     return (
       <center>
-      <img src={this.props.image_url} />
+      
+      <img src={this.props.image_url} height="600" width="600" />
       <h1 class="display-4">{this.props.brand}</h1>
       </center>
     )

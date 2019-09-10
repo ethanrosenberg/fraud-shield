@@ -7,20 +7,46 @@ import UrlSearchBar from "../components/UrlSearchBar";
 import Result from "../components/Result"
 
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 
-const SearchUrlContainer = () => {
+class SearchUrlContainer extends React.Component {
 
+render() {
 
+  const showResults = () => {
+    return (
+      <div className="results">
+      <br></br>
+      <Result />
+      </div>
+    )
+  }
+
+  const showSearchBar = () => {
     return (
       <div className="bg">
       <UrlSearchBar />
-      <Result />
       </div>
-
-
-
     )
+  }
+  return (
+
+      this.props.results.flag ? showResults() : showSearchBar()
+
+  )
 
 }
 
-export default SearchUrlContainer
+
+
+
+}
+
+const mapStateToProps = state => {
+  return {
+    results: state.urlResults,
+  }
+}
+
+
+export default connect(mapStateToProps)(SearchUrlContainer)
