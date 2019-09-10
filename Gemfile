@@ -10,6 +10,7 @@ gem 'adomain'
 gem 'metainspector'
 gem 'httparty'
 gem 'rack-cors'
+gem 'googl'
 
 gem 'phantomjs', :require => 'phantomjs/poltergeist'
 
