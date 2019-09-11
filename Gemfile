@@ -11,6 +11,7 @@ gem 'metainspector'
 gem 'httparty'
 gem 'rack-cors'
 gem 'googl'
+gem 'mailgun-ruby', '~>1.1.6'
 
 gem 'phantomjs', :require => 'phantomjs/poltergeist'
 

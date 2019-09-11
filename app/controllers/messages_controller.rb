@@ -15,6 +15,8 @@ class MessagesController < ApplicationController
 def test
 
 
+byebug
+
 url = Url.create(address: "apple.com")
 downloaded_image = open(url)
 url.image.attach(io: downloaded_image)
